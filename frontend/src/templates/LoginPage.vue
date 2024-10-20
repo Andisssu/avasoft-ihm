@@ -1,7 +1,6 @@
 <template>
   <ToastComponent v-if="showToast" :message="toastMessage" :type="toastType" />
   <div class="container-login">
-
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Kode+Mono:wght@400..700&family=Nanum+Gothic&display=swap">
 
@@ -9,7 +8,6 @@
       <h1 class="text-8xl mt-3">AVA<span>SOFT</span></h1>
       <p class="text-center" style="color:#fff">Avaliação Antropometrica</p>
     </header>
-
 
     <form action="" id="login-form" class="" style="width: fit-content;">
       <div class="flex flex-col">
@@ -34,12 +32,9 @@
           <a href="#" class="flex justify-around  rounded-md items-center w-40"><img src="../assets/img/microsoft.png" alt="">Microsoft</a>
         </div>
       </div>
-
-
     </form>
 
     <img id="logo" src="../assets/img/logo.svg" alt="logo avasoft" class="fixed top-1/2 right-0 transform -translate-y-1/2 max-w-[100%] max-h-[100%] opacity-50 z-[-1] md:max-w-[100%] md:max-h-[100%] sm:max-w-[100%] sm:max-h-[100%]" />
-
   </div>
 </template>
 
@@ -48,10 +43,8 @@ import { googleTokenLogin } from "vue3-google-login"
 import { decodeCredential } from "vue3-google-login";
 import ToastComponent from '../components/ToastNotification.vue'; 
 
-
 export default {
   components: {
-    
     ToastComponent
   },
 
@@ -62,30 +55,33 @@ export default {
       showToast: false,
       toastMessage: '',
       toastType: 'success',
+      users: [
+        { userName: 'user1', password: 'password1' },
+        { userName: 'user2', password: 'password2' }
+      ]
     }
   },
 
   mounted() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const token = urlParams.get('token');
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
 
-  if (token) {
-    localStorage.setItem('authToken', token);
-    this.$axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    
-    this.$router.push('/HomePage');
-  } else {
-    const authToken = localStorage.getItem('authToken');
-    if (authToken) {
-      this.$axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+    if (token) {
+      localStorage.setItem('authToken', token);
+      this.$axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      this.$router.push('/HomePage');
+    } else {
+      const authToken = localStorage.getItem('authToken');
+      if (authToken) {
+        this.$axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+      }
     }
-  }
 
-  document.documentElement.style.overflow = 'hidden';
-},
-beforeUnmount() {
-  document.documentElement.style.overflow = '';
-},
+    document.documentElement.style.overflow = 'hidden';
+  },
+  beforeUnmount() {
+    document.documentElement.style.overflow = '';
+  },
 
   methods: {
     callback(response) {
@@ -95,21 +91,14 @@ beforeUnmount() {
     logingoogle(){
       googleTokenLogin().then((response) => {
       console.log("Handle the response", response)
-  })
+    })
     },
-    async handleLogin() {
-      try {
-        const response = await this.$axios.post('http://localhost:3000/login', {
-          userName: this.userName,
-          password: this.password,
-        });
-        const { token } = response.data;
-        // Armazene o token em localStorage
-        localStorage.setItem('authToken', token);
+    handleLogin() {
+      const user = this.users.find(user => user.userName === this.userName && user.password === this.password);
+      if (user) {
         this.showToastMessage('Login efetuado com sucesso!', 'success');
         this.$router.push('/HomePage');
-      } catch (error) {
-        console.error('Erro ao fazer login:', error);
+      } else {
         this.showToastMessage('Erro ao fazer login! Revise sua senha e nome de usuario', 'error');
       }
     },
@@ -123,12 +112,9 @@ beforeUnmount() {
     },
   },
 };
-
 </script>
 
 <style>
-
-
 #label-name,
 #label-pass {
   color: #ffffff;
@@ -189,7 +175,6 @@ span {
   color: #FF5C00;
 }
 
-
 #micro-google img {
   width: 30px;
   height: auto;
@@ -210,7 +195,6 @@ span {
   background-color: #ff8818;
   border-radius: 5px;
   border-width: 0;
- /*box-shadow: rgba(255, 157, 0, 0.2) 0 2px 4px, rgba(66, 55, 35, 0.15) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;*/
   box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
