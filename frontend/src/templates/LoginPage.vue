@@ -1,47 +1,61 @@
 <template>
   <ToastComponent v-if="showToast" :message="toastMessage" :type="toastType" />
-  <div class="container-login">
+  <div class="container-login pt-28 flex flex-col items-start md:items-start md:flex-row justify-between mx-auto p-6">
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Kode+Mono:wght@400..700&family=Nanum+Gothic&display=swap">
-
-    <header class="flex flex-col justify-center items-center xl:m-0 pl-14" style="width: fit-content;">
-      <h1 class="text-8xl mt-3">AVA<span>SOFT</span></h1>
-      <p class="text-center" style="color:#fff">Avaliação Antropometrica</p>
+    
+    <!-- Header -->
+    <header class="flex flex-col pt-20 justify-center items-start md:items-start text-center md:text-left xl:m-0 md:pl-14">
+      <h1 class="text-5xl px-48 lg:text-8xl mt-3 text-white">AVA<span class="text-orange-400">SOFT</span></h1>
+      <p class="text-white px-64 text-center md:text-left">Avaliação Antropométrica</p>
     </header>
 
-    <form action="" id="login-form" class="" style="width: fit-content;">
-      <div class="flex flex-col">
-        <label for="name" id="label-name" class="">Nome</label>
-        <input type="text" id="name" placeholder="" v-model="userName">
+    <!-- Formulário de Login -->
+    <form id="login-form" class="w-full max-w-md md:ml-16 mt-8 md:mt-0">
+      <div class="flex flex-col space-y-4">
+        <label for="name" id="label-name" class="text-white">Nome</label>
+        <input type="text" id="name" v-model="userName"
+          class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all" />
 
-        <label for="pass" id="label-pass">Senha</label>
-        <input type="password" id="pass" placeholder="" v-model="password">
+        <label for="pass" id="label-pass" class="text-white">Senha</label>
+        <input type="password" id="pass" v-model="password"
+          class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all" />
       </div>
 
-      <p class="text-end text-white pt-2"><a class="text-orange-400 hover:underline"><router-link to="/PasswordReset">Esqueceu a senha?</router-link></a></p>
+      <p class="text-right text-white pt-2">
+        <a class="text-orange-400 hover:underline"><router-link to="/PasswordReset">Esqueceu a senha?</router-link></a>
+      </p>
 
-      <div class="flex justify-center">
+      <div class="flex justify-center mt-4">
         <button type="button" class="button-login" @click="handleLogin">Entrar</button>
       </div>
-      <div class="text-center text-white pt-2">
-        <p>Não tem uma conta? <a href="#" class="text-orange-400 hover:underline" ><router-link to="/ProfessionalRegister">Registre-se aqui!</router-link></a></p>
-        <p class="pt-2">__________ OU __________</p>
 
-        <div id="micro-google" class="flex justify-around pt-4">
-          <GoogleLogin :callback="callback" prompt auto-login/>
-          <a href="#" class="flex justify-around  rounded-md items-center w-40"><img src="../assets/img/microsoft.png" alt="">Microsoft</a>
+      <div class="text-center text-white pt-4">
+        <p>Não tem uma conta? 
+          <a class="text-orange-400 hover:underline"><router-link to="/ProfessionalRegister">Registre-se aqui!</router-link></a>
+        </p>
+        <p class="pt-4">__________ OU __________</p>
+
+        <div id="micro-google" class="flex justify-around pt-4 space-x-4">
+          <GoogleLogin :callback="callback" prompt auto-login />
+          <a href="#" class="flex items-center justify-center space-x-2 bg-gray-700 rounded-md px-4 py-2">
+            <img src="../assets/img/microsoft.png" alt="Microsoft" class="w-6 h-auto" />
+            <span>Microsoft</span>
+          </a>
         </div>
       </div>
     </form>
-
-    <img id="logo" src="../assets/img/logo.svg" alt="logo avasoft" class="fixed top-1/2 right-0 transform -translate-y-1/2 max-w-[100%] max-h-[100%] opacity-50 z-[-1] md:max-w-[100%] md:max-h-[100%] sm:max-w-[100%] sm:max-h-[100%]" />
   </div>
+
+  <!-- Logo de fundo -->
+  <img id="logo" src="../assets/img/logo.svg" alt="logo avasoft"
+    class="fixed top-1/2 right-0 transform -translate-y-1/2 opacity-50 z-[-1] max-w-full max-h-full" />
 </template>
 
 <script>
 import { googleTokenLogin } from "vue3-google-login"
 import { decodeCredential } from "vue3-google-login";
-import ToastComponent from '../components/ToastNotification.vue'; 
+import ToastComponent from '../components/ToastNotification.vue';
 
 export default {
   components: {
@@ -88,10 +102,10 @@ export default {
       const userData = decodeCredential(response.credential)
       console.log("Handle the userData", userData)
     },
-    logingoogle(){
+    logingoogle() {
       googleTokenLogin().then((response) => {
-      console.log("Handle the response", response)
-    })
+        console.log("Handle the response", response)
+      })
     },
     handleLogin() {
       const user = this.users.find(user => user.userName === this.userName && user.password === this.password);
@@ -114,117 +128,33 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+/* Estilos Personalizados */
 #label-name,
 #label-pass {
-  color: #ffffff;
   font-size: 1em;
-  margin: 0.5em 0 0.5em 0;
+  margin: 0.5em 0;
   font-family: "Nanum Gothic", sans-serif;
-}
-
-#name,
-#pass {
-  width: 30rem;
-  max-width: 30rem;
-  height: 45px;
-  padding: 12px;
-  border-radius: 5px;
-  border: 1.5px solid lightgrey;
-  outline: none;
-  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
-  box-shadow: 2px 2px 20px 0px;
-}
-
-#name:hover,
-#pass:hover {
-  border: 2px solid lightgrey;
-  box-shadow: 0px 0px 20px -17px;
-}
-
-#name:active,
-#pass:active {
-  transform: scale(0.99);
-}
-
-#name:focus,
-#pass:focus {
-  border: 1px solid grey;
-}
-
-#logo {
-  z-index: -1;
-}
-
-.container-login {
-  display: flex;
-  flex-direction: column;
-  margin-left: 12em;
-  height: 100vh;
-  font-family: "Nanum Gothic", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-h1 {
-  color: #ffffff;
-  font-size: 7em;
-}
-
-span {
-  color: #FF5C00;
-}
-
-#micro-google img {
-  width: 30px;
-  height: auto;
-}
-
-#micro-google a{
-  background-color: #555555;
-  color: #ffffff;
-  padding: 0.5em 1em 0.5em 1em;
-  border-radius: 5px;
-  font-weight: bold;
 }
 
 .button-login {
   margin-top: 1em;
-  align-items: center;
-  appearance: none;
   background-color: #ff8818;
   border-radius: 5px;
-  border-width: 0;
-  box-sizing: border-box;
-  color: #ffffff;
-  cursor: pointer;
-  display: inline-flex;
-  width: 180px;
-  height: 40px;
-  justify-content: center;
-  line-height: 1;
-  list-style: none;
-  overflow: hidden;
-  position: relative;
-  text-align: left;
-  text-decoration: none;
-  transition: box-shadow .15s, transform .15s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  will-change: box-shadow, transform;
+  color: white;
   font-size: 18px;
   font-weight: bold;
+  padding: 0.5em 1em;
+  transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .button-login:hover {
-  box-shadow: rgba(255, 255, 255, 0.278) 0 4px 8px, rgba(45, 35, 66, 0.2) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  box-shadow: rgba(255, 255, 255, 0.278) 0 4px 8px, rgba(45, 35, 66, 0.2) 0 7px 13px -3px;
   transform: translateY(-1px);
 }
 
 .button-login:active {
-  box-shadow: #ffa347 0 3px 7px inset;
-  transform: translateY(0.80px);
+  box-shadow: inset 0 3px 7px #ffa347;
+  transform: translateY(0.8px);
 }
 </style>

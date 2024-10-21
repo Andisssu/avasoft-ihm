@@ -49,7 +49,7 @@ export default {
   computed: {
     toastClass() {
       return {
-        'fixed top-4 right-4 max-w-xs rounded-xl shadow-lg text-sm text-white font-bold': true,
+        'fixed top-20 right-4 max-w-xs rounded-xl shadow-lg text-sm text-white font-bold': true, // Ajuste a posição top para 20px
         'bg-green-500': this.type === 'success',
         'bg-red-500': this.type === 'error',
         'bg-blue-500': this.type === 'info',
