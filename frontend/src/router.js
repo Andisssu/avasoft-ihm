@@ -78,7 +78,8 @@ const routes = [
     {
         path: '/ProfessionalRegister',
         component: ProfessionalRegister,
-        name: 'ProfessionalRegister'
+        name: 'ProfessionalRegister',
+        meta: { hideHeader: true }
     },
     {
         path: '/patientlist',

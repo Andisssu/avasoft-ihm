@@ -1,224 +1,207 @@
 <template>
-    <div class="container flex flex-col justify-start items-center min-h-screen text-white px-4">
-      <!-- Título do formulário -->
-      <h2 class="text-2xl mb-6">Cadastro de Profissionais</h2>
-  
-      <!-- Formulário de cadastro -->
-      <form @submit.prevent="handleRegister" id="register-form" class="w-full max-w-4xl text-black">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-          <!-- Nome completo -->
-          <div class="flex flex-col mx-4">
-            <label for="fullName" class="mb-2 text-white">Nome completo</label>
-            <input type="text" id="fullName" placeholder="Digite seu nome completo aqui..." v-model="fullName"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- CPF -->
-          <div class="flex flex-col mx-4">
-            <label for="cpf" class="mb-2 text-white">CPF</label>
-            <input type="text" id="cpf" placeholder="Digite seu CPF aqui..." v-model="cpf"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Data de Nascimento -->
-          <div class="flex flex-col mx-4">
-            <label for="dataNasc" class="mb-2 text-white">Data de Nascimento</label>
-            <input type="date" id="dataNasc" v-model="dataNasc"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Gênero -->
-          <div class="flex flex-col mx-4">
-            <label for="gender" class="mb-2 text-white">Gênero</label>
-            <select id="gender" v-model="gender" class="w-full p-3 rounded focus:border-orange-500">
-              <option value="Masculino">Masculino</option>
-              <option value="Feminino">Feminino</option>
-              <option value="Outro">Outro</option>
-            </select>
-          </div>
-  
-          <!-- Nome de Usuário -->
-          <div class="flex flex-col mx-4">
-            <label for="userName" class="mb-2 text-white">Nome de Usuário</label>
-            <input type="text" id="userName" placeholder="Digite seu nome de usuário aqui..." v-model="userName"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Telefone -->
-          <div class="flex flex-col mx-4">
-            <label for="phone" class="mb-2 text-white">Telefone</label>
-            <input type="text" id="phone" placeholder="Digite seu telefone aqui..." v-model="phone"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Email -->
-          <div class="flex flex-col mx-4">
-            <label for="email" class="mb-2 text-white">Email</label>
-            <input type="email" id="email" placeholder="Digite seu email aqui..." v-model="email"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Senha -->
-          <div class="flex flex-col mx-4">
-            <label for="password" class="mb-2 text-white">Senha</label>
-            <input type="password" id="password" placeholder="Digite sua senha aqui..." v-model="password"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Confirmação de Senha -->
-          <div class="flex flex-col mx-4">
-            <label for="confirmPassword" class="mb-2 text-white">Confirme a Senha</label>
-            <input type="password" id="confirmPassword" placeholder="Confirme sua senha aqui..." v-model="confirmPassword"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Rua -->
-          <div class="flex flex-col mx-4">
-            <label for="street" class="mb-2 text-white">Rua</label>
-            <input type="text" id="street" placeholder="Digite sua rua aqui..." v-model="street"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Número -->
-          <div class="flex flex-col mx-4">
-            <label for="number" class="mb-2 text-white">Número</label>
-            <input type="number" id="number" placeholder="Digite o número aqui..." v-model="number"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Complemento -->
-          <div class="flex flex-col mx-4">
-            <label for="complement" class="mb-2 text-white">Complemento</label>
-            <input type="text" id="complement" placeholder="Digite o complemento aqui..." v-model="complement"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Bairro -->
-          <div class="flex flex-col mx-4">
-            <label for="district" class="mb-2 text-white">Bairro</label>
-            <input type="text" id="district" placeholder="Digite seu bairro aqui..." v-model="district"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Cidade -->
-          <div class="flex flex-col mx-4">
-            <label for="city" class="mb-2 text-white">Cidade</label>
-            <input type="text" id="city" placeholder="Digite sua cidade aqui..." v-model="city"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- Estado -->
-          <div class="flex flex-col mx-4">
-            <label for="state" class="mb-2 text-white">Estado</label>
-            <input type="text" id="state" placeholder="Digite seu estado aqui..." v-model="state"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
-  
-          <!-- CEP -->
-          <div class="flex flex-col mx-4">
-            <label for="cep" class="mb-2 text-white">CEP</label>
-            <input type="text" id="cep" placeholder="Digite seu CEP aqui..." v-model="cep"
-              class="w-full p-3 rounded focus:border-orange-500">
-          </div>
+  <ToastComponent v-if="showToast" :message="toastMessage" :type="toastType" />
+  <div class="container flex flex-col justify-start items-center min-h-screen text-white px-4">
+    <h2 class="text-2xl mb-6">Cadastro de Profissionais</h2>
+
+    <form @submit.prevent="handleRegister" id="register-form" class="w-full max-w-4xl text-black">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div class="flex flex-col mx-4">
+          <label for="fullName" class="mb-2 text-white">Nome completo <span class="text-red-500">*</span></label>
+          <input type="text" id="fullName" placeholder="Digite seu nome completo aqui..." v-model="fullName"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.fullName" class="text-red-500 text-sm">{{ errors.fullName }}</span>
         </div>
-  
-        <!-- Botões de envio -->
-        <div class="flex justify-center mt-6 gap-4">
-          <button type="submit" class="bg-orange-500 text-white p-3 mb-3 rounded">Cadastrar</button>
-          <router-link to="/">
-            <button type="button" class="bg-orange-500 text-white p-3 mb-3 rounded">Voltar</button>
-          </router-link>
+
+        <div class="flex flex-col mx-4">
+          <label for="cpf" class="mb-2 text-white">CPF <span class="text-red-500">*</span></label>
+          <input type="text" id="cpf" placeholder="Digite seu CPF aqui..." v-model="cpf"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.cpf" class="text-red-500 text-sm">{{ errors.cpf }}</span>
         </div>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        fullName: '',
-        cpf: '',
-        dataNasc: '',
-        gender: '',
-        phone: '',
-        email: '',
-        street: '',
-        number: '',
-        complement: '',
-        district: '',
-        city: '',
-        state: '',
-        cep: '',
-        userName: '',
-        password: '',
-        confirmPassword: '',
-      };
+
+        <div class="flex flex-col mx-4">
+          <label for="phone" class="mb-2 text-white">Telefone <span class="text-red-500">*</span></label>
+          <input type="text" id="phone" placeholder="Digite seu telefone aqui..." v-model="phone"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.phone" class="text-red-500 text-sm">{{ errors.phone }}</span>
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="email" class="mb-2 text-white">Email <span class="text-red-500">*</span></label>
+          <input type="email" id="email" placeholder="Digite seu email aqui..." v-model="email"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.email" class="text-red-500 text-sm">{{ errors.email }}</span>
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="userName" class="mb-2 text-white">Nome de Usuário <span class="text-red-500">*</span></label>
+          <input type="text" id="userName" placeholder="Digite seu nome de usuário aqui..." v-model="userName"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.userName" class="text-red-500 text-sm">{{ errors.userName }}</span>
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="password" class="mb-2 text-white">Senha <span class="text-red-500">*</span></label>
+          <input type="password" id="password" placeholder="Digite sua senha aqui..." v-model="password"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.password" class="text-red-500 text-sm">{{ errors.password }}</span>
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="confirmPassword" class="mb-2 text-white">Confirmação de Senha <span class="text-red-500">*</span></label>
+          <input type="password" id="confirmPassword" placeholder="Confirme sua senha aqui..." v-model="confirmPassword"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.confirmPassword" class="text-red-500 text-sm">{{ errors.confirmPassword }}</span>
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="street" class="mb-2 text-white">Rua</label>
+          <input type="text" id="street" placeholder="Digite sua rua aqui..." v-model="street"
+            class="w-full p-3 rounded focus:border-orange-500" />
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="number" class="mb-2 text-white">Número <span class="text-red-500">*</span></label>
+          <input type="number" id="number" placeholder="Digite o número aqui..." v-model="number"
+            class="w-full p-3 rounded focus:border-orange-500" />
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="complement" class="mb-2 text-white">Complemento</label>
+          <input type="text" id="complement" placeholder="Digite o complemento aqui..." v-model="complement"
+            class="w-full p-3 rounded focus:border-orange-500" />
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="district" class="mb-2 text-white">Bairro <span class="text-red-500">*</span></label>
+          <input type="text" id="district" placeholder="Digite seu bairro aqui..." v-model="district"
+            class="w-full p-3 rounded focus:border-orange-500" />
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="city" class="mb-2 text-white">Cidade <span class="text-red-500">*</span></label>
+          <input type="text" id="city" placeholder="Digite sua cidade aqui..." v-model="city"
+            class="w-full p-3 rounded focus:border-orange-500" />
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="state" class="mb-2 text-white">Estado <span class="text-red-500">*</span></label>
+          <input type="text" id="state" placeholder="Digite seu estado aqui..." v-model="state"
+            class="w-full p-3 rounded focus:border-orange-500" />
+        </div>
+
+        <div class="flex flex-col mx-4">
+          <label for="cep" class="mb-2 text-white">CEP <span class="text-red-500">*</span></label>
+          <input type="text" id="cep" placeholder="Digite seu CEP aqui..." v-model="cep"
+            class="w-full p-3 rounded focus:border-orange-500" />
+          <span v-if="errors.cep" class="text-red-500 text-sm">{{ errors.cep }}</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between my-6">
+        <button type="button" @click="goBack" class="bg-gray-500 text-white p-3 rounded">Voltar</button>
+        <button type="submit" class="bg-orange-500 text-white p-3 rounded">Cadastrar</button>
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+import ToastComponent from '../components/ToastNotification.vue';
+
+export default {
+  components: {
+    ToastComponent,
+  },
+  data() {
+    return {
+      fullName: '',
+      cpf: '',
+      phone: '',
+      email: '',
+      userName: '',
+      password: '',
+      confirmPassword: '',
+      street: '',
+      number: '',
+      complement: '',
+      district: '',
+      city: '',
+      state: '',
+      cep: '',
+      errors: {},
+      toastMessage: '',
+      toastType: '',
+      showToast: false,
+    };
+  },
+  methods: {
+    validateCPF(cpf) {
+      // Lógica de validação de CPF (apenas exemplo)
+      return cpf.length === 11 && !isNaN(cpf);
     },
-    methods: {
-      async handleRegister() {
-        if (this.password !== this.confirmPassword) {
-          alert('As senhas não coincidem.');
-          return;
-        }
-  
-        try {
-          await axios.post('http://localhost:3000/register', {
-            fullName: this.fullName,
-            cpf: this.cpf,
-            dataNasc: this.dataNasc,
-            gender: this.gender,
-            phone: this.phone,
-            email: this.email,
-            street: this.street,
-            number: this.number,
-            complement: this.complement,
-            district: this.district,
-            city: this.city,
-            state: this.state,
-            cep: this.cep,
-            role: 'Profissional',
-            userName: this.userName,
-            password: this.password, 
-            confirmPassword: this.confirmPassword, 
-            resetPasswordToken: null,
-          });
-          alert('Profissional cadastrado com sucesso!');
-        } catch (error) {
-          console.error('Erro ao cadastrar profissional:', error);
-          if (error.response && error.response.data && error.response.data.message) {
-            alert(`Erro ao cadastrar profissional: ${error.response.data.message}`);
-          } else {
-            alert('Erro ao cadastrar profissional.');
-          }
-        }
-      },
-    }
-  };
-  </script>
-  
-  <style scoped>
-  p {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 1rem;
-  }
-  
-  #logo {
-    max-width: 10%;
-    max-height: 10%;
-    opacity: 0.5;
-    margin-right: 1rem;
-  }
-  
-  h1 span {
-    color: #ff8818;
-  }
-  
-  button {
-    width: 180px;
-  }
-  </style>
-  
+    validatePhone(phone) {
+      // Lógica de validação de telefone (apenas exemplo)
+      return phone.length >= 10 && phone.length <= 15 && !isNaN(phone);
+    },
+    validateCEP(cep) {
+      // Lógica de validação de CEP (apenas exemplo)
+      return cep.length === 8 && !isNaN(cep);
+    },
+    handleRegister() {
+      this.errors = {}; // Limpa os erros
+
+      // Validação dos campos
+      if (!this.fullName) this.errors.fullName = 'Nome completo é obrigatório.';
+      if (!this.cpf || !this.validateCPF(this.cpf)) this.errors.cpf = 'CPF inválido.';
+      if (!this.phone || !this.validatePhone(this.phone)) this.errors.phone = 'Telefone inválido.';
+      if (!this.email) this.errors.email = 'Email é obrigatório.';
+      if (!this.userName) this.errors.userName = 'Nome de usuário é obrigatório.';
+      if (!this.password) this.errors.password = 'Senha é obrigatória.';
+      if (this.password !== this.confirmPassword) this.errors.confirmPassword = 'As senhas não coincidem.';
+      if (!this.cep || !this.validateCEP(this.cep)) this.errors.cep = 'CEP inválido.';
+
+      // Verifica se há erros
+      if (Object.keys(this.errors).length > 0) {
+        this.toastMessage = 'Por favor, corrija os erros no formulário.';
+        this.toastType = 'error';
+        this.showToast = true;
+        return;
+      }
+
+      // Aqui você pode fazer a requisição para o backend
+      // Após o sucesso, exiba uma mensagem de sucesso
+      this.toastMessage = 'Profissional cadastrado com sucesso!';
+      this.toastType = 'success';
+      this.showToast = true;
+
+      // Limpa os campos
+      this.clearFields();
+    },
+    clearFields() {
+      this.fullName = '';
+      this.cpf = '';
+      this.phone = '';
+      this.email = '';
+      this.userName = '';
+      this.password = '';
+      this.confirmPassword = '';
+      this.street = '';
+      this.number = '';
+      this.complement = '';
+      this.district = '';
+      this.city = '';
+      this.state = '';
+      this.cep = '';
+      this.errors = {};
+    },
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Estilos personalizados */
+</style>
