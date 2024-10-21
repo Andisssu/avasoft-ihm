@@ -1,4 +1,5 @@
 <template>
+    <ToastComponent v-if="showToast" :message="toastMessage" :type="toastType" />
     <div class="container-reset flex justify-center items-center max-w-full pt-1">
         <div id="hea" class="text-center w-full">
             <div class="flex items-center justify-center">
@@ -21,33 +22,57 @@
 
             <div class="flex flex-col items-center justify-center gap-3">
                 <button type="button" class="button-reset mt-5" @click="handleResetRequest">Enviar</button>
-                <a class="mt" ><router-link to="/" class="underline decoration-orange-500 text-white hover:text-orange-700"> Fazer Login </router-link></a>
+                <a class="mt">
+                    <router-link to="/" class="underline decoration-orange-500 text-white hover:text-orange-700">Fazer
+                        Login
+                    </router-link>
+                </a>
             </div>
         </form>
     </div>
 </template>
 
 <script>
+import ToastComponent from '../components/ToastNotification.vue';
+
 export default {
+    components: {
+        ToastComponent,
+    },
     data() {
         return {
+            toastMessage: '',
+            toastType: 'success',
             email: '',
-        }
+            showToast: false,
+        };
     },
     methods: {
-        async handleResetRequest() {
-            try {
-                const response = await this.$axios.post('http://localhost:3000/reset-password', {
-                    email: this.email,
-                });
+        handleResetRequest() {
+            this.showToast = false; // Reseta a exibição do toast antes de validar
 
-                console.log('Instruções enviadas:', response.data);
-                alert("enviado com sucesso! verique aqui seu email.");// Mostrar uma notificação de que o email foi enviado ou redirecionar para outra página
-            } catch (error) {
-                console.error('Erro ao solicitar recuperação de senha:', error);
-                alert("Erro ao solicitar recuperação de senha!, esse email está cadastro no sistemas??")
-                // Trate o erro, exiba uma mensagem de erro, etc.
+            if (!this.email.trim()) {
+                this.showToastMessage('Por favor, insira um e-mail.', 'error');
+            } else if (!this.validateEmail(this.email)) {
+                this.showToastMessage('Por favor, insira um e-mail válido.', 'error');
+            } else {
+                // Simulação de envio de e-mail para demonstração
+                this.showToastMessage('E-mail enviado com sucesso! Verifique sua caixa de entrada ou spam.', 'success');
             }
+        },
+        validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        },
+        showToastMessage(message, type) {
+            this.toastMessage = message;
+            this.toastType = type;
+            this.showToast = true;
+
+            // Define um temporizador para esconder o toast após 3 segundos
+            setTimeout(() => {
+                this.showToast = false;
+            }, 5000);
         },
     },
 };
