@@ -4,34 +4,36 @@
     <h1 class="text-3xl font-bold text-center mb-6">Informações do Paciente</h1>
 
     <div v-if="patient && user" class="bg-white shadow-md rounded-lg p-6">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Dados do Usuário</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <p><strong>Nome Completo:</strong> {{ user.fullName }}</p>
-        <p><strong>CPF:</strong> {{ user.cpf }}</p>
-        <p><strong>Data de Nascimento:</strong> {{ user.dataNasc }}</p>
-        <p><strong>Gênero:</strong> {{ user.gender }}</p>
-        <p><strong>Telefone:</strong> {{ user.phone }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Endereço:</strong> {{ user.street }}, {{ user.number }} - {{ user.complement }}</p>
-        <p><strong>Bairro:</strong> {{ user.district }}</p>
-        <p><strong>Cidade:</strong> {{ user.city }}</p>
-        <p><strong>Estado:</strong> {{ user.state }}</p>
-        <p><strong>CEP:</strong> {{ user.cep }}</p>
-        <p><strong>Nome de Usuário:</strong> {{ user.userName }}</p>
+      <div v-if="patient && user" class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Dados do Usuário</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <p><strong>Nome Completo:</strong> {{ user.fullName }}</p>
+          <p><strong>CPF:</strong> {{ user.cpf }}</p>
+          <p><strong>Data de Nascimento:</strong> {{ user.dataNasc }}</p>
+          <p><strong>Gênero:</strong> {{ user.gender }}</p>
+          <p><strong>Telefone:</strong> {{ user.phone }}</p>
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Endereço:</strong> {{ user.street }}, {{ user.number }} - {{ user.complement }}</p>
+          <p><strong>Bairro:</strong> {{ user.district }}</p>
+          <p><strong>Cidade:</strong> {{ user.city }}</p>
+          <p><strong>Estado:</strong> {{ user.state }}</p>
+          <p><strong>CEP:</strong> {{ user.cep }}</p>
+          <p><strong>Nome de Usuário:</strong> {{ user.userName }}</p>
+        </div>
+
+        <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4">Dados do Paciente</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <p><strong>Peso Inicial:</strong> {{ patient.weigth_ini }} kg</p>
+          <p><strong>Altura Inicial:</strong> {{ patient.height_ini }} m</p>
+        </div>
       </div>
 
-      <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4">Dados do Paciente</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <p><strong>Peso Inicial:</strong> {{ patient.weigth_ini }} kg</p>
-        <p><strong>Altura Inicial:</strong> {{ patient.height_ini }} m</p>
-      </div>
-
-      <!-- tebal de avaliaçãoes -->
+      <!-- Tabela de avaliações -->
       <h2 class="text-2xl font-semibold text-gray-800 mt-6 mb-4">Avaliações</h2>
       <div class="flex flex-col">
         <div class="-m-1.5 overflow-x-auto">
           <div class="p-1.5 min-w-full inline-block align-middle">
-            <div class="border rounded-lg shadow overflow-hidden  dark:shadow-gray-400">
+            <div class="border rounded-lg shadow overflow-hidden dark:shadow-gray-400">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-400">
                 <thead class="bg-gray-100">
                   <tr>
@@ -42,38 +44,86 @@
                       class="px-6 py-3 text-start text-xs font-medium text-gray-900 uppercase dark:text-neutral-500">
                       Data</th>
                     <th scope="col"
-                      class="px-6 py-3 text-end text-xs font-medium text-gray-900 uppercase dark:text-neutral-500">Ações
+                      class="px-6 py-3 text-end text-xs font-medium text-gray-900 uppercase dark:text-neutral-500">
+                      Ações
                     </th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-neutral-400">
-                  <tr v-for="assessment in assessments" :key="assessment.id_assessment">
+                  <tr v-for="assessment in filteredAssessments" :key="assessment.id_assessment">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-500">
                       {{ assessment.id_assessment }} </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-500">{{
-                      formatDate(assessment.assessmentDate) }}</td>
-
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-500">
+                      {{ new Date(assessment.assessmentDate).toLocaleDateString('pt-BR') }} </td>
                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                       <button type="button"
                         class="bg-blue-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent"
                         aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-large-modal"
-                        data-hs-overlay="#hs-large-modal" @click="openModal(assessment.id_assessment)">
+                        data-hs-overlay="#hs-large-modal" @click="openModal(assessment)">
                         Visualizar
                       </button>
-                      <button type="button"
-                        class="bg-yellow-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent disabled">Editar</button>
-                      <button type="button"
-                        class="bg-red-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent disabled">Excluir</button>
-                      <button type="button"
-                        class="bg-green-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent"
-                        @click="generatePdf(patient.id_patient)">
-                        Gerar PDF
-                      </button>
-                    </td>
+                      <button type="button" @click="editpage"
+                        class="bg-yellow-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent">Editar</button>
+                      <button type="button" @click="openDeleteModal(assessment)"
+                        class="bg-red-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent"
+                        aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-danger-alert"
+                        data-hs-overlay="#hs-danger-alert">Excluir</button>
 
+                      <GeneratePdf :user="user" :patient="patient" :assessments="assessments" />
+                    </td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de confirmação de exclusão -->
+      <div id="hs-danger-alert"
+        class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto" role="dialog"
+        tabindex="-1" aria-labelledby="hs-danger-alert-label">
+        <div
+          class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all md:max-w-2xl md:w-full m-3 md:mx-auto">
+          <div
+            class="relative flex flex-col bg-white border shadow-sm rounded-xl overflow-hidden dark:bg-neutral-900 dark:border-neutral-800">
+            <div class="absolute top-2 end-2">
+              <button type="button"
+                class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
+                aria-label="Close" data-hs-overlay="#hs-danger-alert" @click="cancelDelete">
+                <span class="sr-only">Close</span>
+                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            </div>
+            <div class="p-4 sm:p-10 overflow-y-auto bg-gray-50">
+              <div class="flex gap-x-4 md:gap-x-7">
+                <span
+                  class="shrink-0 inline-flex justify-center items-center size-[46px] sm:w-[62px] sm:h-[62px] rounded-full border-4 border-red-50 bg-red-100 text-red-500">
+                  <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                      d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                  </svg>
+                </span>
+                <div class="grow">
+                  <h3 id="hs-danger-alert-label" class="mb-2 text-xl font-bold text-gray-800">Excluir Avaliação</h3>
+                  <p class="text-gray-500">Tem certeza que deseja excluir esta avaliação? Essa ação não poderá ser
+                    desfeita.</p>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end items-center gap-x-2 py-3 px-4 bg-gray-50 border-t">
+              <button @click="cancelDelete" type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50"
+                aria-label="Close" data-hs-overlay="#hs-danger-alert">Cancelar</button>
+              <button @click="confirmDeleteAssessment" type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none"
+                aria-label="Close" data-hs-overlay="#hs-danger-alert">Excluir</button>
             </div>
           </div>
         </div>
@@ -88,8 +138,8 @@
           <div
             class="flex flex-col max-h-full overflow-hidden bg-white border shadow-sm rounded-xl pointer-events-auto">
             <div class="flex justify-between items-center py-3 px-4 border-b">
-              <h3 id="hs-large-modal-label" class="font-bold text-gray-800" v-if="selectedAssessment">
-                Avaliação {{ selectedAssessment.id_assessment }}
+              <h3 id="hs-large-modal-label" class="font-bold text-gray-800">
+                Avaliação {{ currentAssessment?.id_assessment }}
               </h3>
               <button type="button"
                 class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
@@ -104,54 +154,43 @@
               </button>
             </div>
 
-            <div class="p-4 overflow-y-auto" v-if="selectedAssessment">
+            <div class="p-4 overflow-y-auto" v-if="currentAssessment">
               <div class="grid grid-cols-2 gap-4">
-                <p><strong>Data da Avaliação:</strong> {{ formatDate(selectedAssessment.assessmentDate) }}</p>
-                <p><strong>Peso:</strong> {{ selectedAssessment.weight }} kg</p>
-                <p><strong>Altura:</strong> {{ selectedAssessment.height }} cm</p>
-                <p><strong>Método:</strong> {{ selectedAssessment.method }}</p>
+                <p><strong>Data da Avaliação:</strong> {{ (currentAssessment.assessmentDate) }}</p>
+                <p><strong>Peso:</strong> {{ currentAssessment.weight }} kg</p>
+                <p><strong>Altura:</strong> {{ currentAssessment.height }} cm</p>
+                <p><strong>Método:</strong> {{ currentAssessment.method }}</p>
               </div>
 
               <h4 class="my-4 font-bold text-black">Circunferências (cm)</h4>
               <div class="grid grid-cols-2 gap-4">
-                <p><strong>Pescoço:</strong> {{ selectedAssessment.circumference.neck }} cm</p>
-                <p><strong>Tórax:</strong> {{ selectedAssessment.circumference.thorax }} cm</p>
-                <p><strong>Cintura:</strong> {{ selectedAssessment.circumference.waist }} cm</p>
-                <p><strong>Abdômen:</strong> {{ selectedAssessment.circumference.abdomen }} cm</p>
-                <p><strong>Quadril:</strong> {{ selectedAssessment.circumference.hip }} cm</p>
-                <p><strong>Braço Esquerdo:</strong> {{ selectedAssessment.circumference.leftArm }} cm</p>
-                <p><strong>Braço Direito:</strong> {{ selectedAssessment.circumference.rightArm }} cm</p>
-                <p><strong>Antebraço Esquerdo:</strong> {{ selectedAssessment.circumference.leftForearm }} cm</p>
-                <p><strong>Antebraço Direito:</strong> {{ selectedAssessment.circumference.rightForearm }} cm</p>
-                <p><strong>Coxa Esquerda:</strong> {{ selectedAssessment.circumference.leftGlutealThigh }} cm</p>
-                <p><strong>Coxa Direita:</strong> {{ selectedAssessment.circumference.rightGlutealThigh }} cm</p>
-                <p><strong>Perna Esquerda:</strong> {{ selectedAssessment.circumference.leftLeg }} cm</p>
-                <p><strong>Perna Direita:</strong> {{ selectedAssessment.circumference.rightLeg }} cm</p>
-                <p><strong>Punho Esquerdo:</strong> {{ selectedAssessment.circumference.leftWrist }} cm</p>
-                <p><strong>Punho Direito:</strong> {{ selectedAssessment.circumference.rightWrist }} cm</p>
+                <p><strong>Pescoço:</strong> {{ currentAssessment.circumference.neck }} cm</p>
+                <p><strong>Tórax:</strong> {{ currentAssessment.circumference.thorax }} cm</p>
+                <p><strong>Cintura:</strong> {{ currentAssessment.circumference.waist }} cm</p>
+                <p><strong>Abdômen:</strong> {{ currentAssessment.circumference.abdomen }} cm</p>
+                <!-- Continue para as outras medidas -->
               </div>
 
               <h4 class="my-4 font-bold text-black">Dobras Cutâneas (mm)</h4>
               <div class="grid grid-cols-2 gap-4">
-                <p><strong>Tríceps:</strong> {{ selectedAssessment.skinfold.triceps }} mm</p>
-                <p><strong>Abdominal:</strong> {{ selectedAssessment.skinfold.abdominal }} mm</p>
-                <p><strong>Subescapular:</strong> {{ selectedAssessment.skinfold.subscapular }} mm</p>
-                <p><strong>Supra-ilíaca:</strong> {{ selectedAssessment.skinfold.suprailiac }} mm</p>
-                <p><strong>Coxa:</strong> {{ selectedAssessment.skinfold.thigh }} mm</p>
+                <p><strong>Tríceps:</strong> {{ currentAssessment.skinfold.triceps }} mm</p>
+                <p><strong>Abdominal:</strong> {{ currentAssessment.skinfold.abdominal }} mm</p>
+                <!-- Continue para as outras dobras -->
               </div>
 
-              <template v-if="selectedAssessment.method !== 'Dados Livres'">
+              <!-- Exibir IMC e Composição Corporal, se disponível -->
+              <template v-if="currentAssessment.method !== 'Dados Livres'">
                 <h4 class="mt-4 font-bold">IMC</h4>
-                <p v-if="selectedAssessment.bmi"><strong>Valor do IMC:</strong> {{ selectedAssessment.bmi.bmiValue }}
+                <p v-if="currentAssessment.bmi"><strong>Valor do IMC:</strong> {{ currentAssessment.bmi.bmiValue }}</p>
+                <p v-if="currentAssessment.bmi"><strong>Classificação:</strong> {{ currentAssessment.bmi.classification
+                  }}
                 </p>
-                <p v-if="selectedAssessment.bmi"><strong>Classificação:</strong> {{
-                  selectedAssessment.bmi.classification }}</p>
 
                 <h4 class="mt-4 font-bold">Composição Corporal</h4>
-                <p v-if="selectedAssessment.bodyComposition"><strong>Densidade Corporal:</strong>
-                  {{ selectedAssessment.bodyComposition.body_density }}</p>
-                <p v-if="selectedAssessment.bodyComposition"><strong>Percentual de Gordura Corporal:</strong>
-                  {{ selectedAssessment.bodyComposition.body_fat_percentage }}%</p>
+                <p v-if="currentAssessment.bodyComposition"><strong>Densidade Corporal:</strong> {{
+                  currentAssessment.bodyComposition.body_density }}</p>
+                <p v-if="currentAssessment.bodyComposition"><strong>Percentual de Gordura Corporal:</strong> {{
+                  currentAssessment.bodyComposition.body_fat_percentage }}%</p>
               </template>
             </div>
 
@@ -168,9 +207,6 @@
 
     </div>
 
-    <div v-else class="text-center text-gray-600 mt-6">
-      <p>Carregando informações...</p>
-    </div>
 
     <div class="mt-6 flex justify-between">
       <button @click="goBack"
@@ -178,7 +214,7 @@
         Voltar
       </button>
       <div>
-        <button @click="editUserData"
+        <button @click="EditaData"
           class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 transition duration-200 mr-2"
           aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal"
           data-hs-overlay="#hs-scale-animation-modal">
@@ -351,20 +387,20 @@
 
 
 <script>
-import axios from 'axios';
-import ToastComponent from '../components/ToastNotification.vue'
+import ToastComponent from '../components/ToastNotification.vue';
+import GeneratePdf from '../components/GeneratePdf.vue';
 
 export default {
   name: 'ViewInformation',
   components: {
     ToastComponent,
+    GeneratePdf
   },
   data() {
     return {
       patient: null,
       user: null,
       showEditModal: false,
-      assessments: [], 
       toastMessage: '',
       toastType: 'success',
       showToast: false,
@@ -377,102 +413,31 @@ export default {
         phone: '',
         email: '',
         street: '',
-
       },
+      assessments: [],
+      currentAssessment: null,
+      assessmentToDelete: null,
+      deletedAssessments: []
     };
   },
   methods: {
-    async fetchPatientData() {
-      try {
-        const patientId = this.$route.params.id;
-        const response = await axios.get(`http://localhost:3000/patient/${patientId}`);
-        this.patient = response.data;
-        this.user = response.data.user;
-      } catch (error) {
-        console.error('Erro ao buscar dados do paciente:', error);
-      }
-    },
-    formatDate(dateString) {
-      const date = new Date(dateString);
-      return date instanceof Date && !isNaN(date) ? date.toLocaleDateString() : 'Data inválida';
-    },
-    async fetchAssessments() {
-      try {
-        const patientId = this.$route.params.id;
-        const response = await axios.get(`http://localhost:3000/assessments/patient/${patientId}`);
-        console.log(response.data);
-        this.assessments = response.data;
-      } catch (error) {
-        console.error("Error fetching assessments:", error);
-      }
-    },
-    async fetchAssessmentById(id) {
-      try {
-        const response = await fetch(`http://localhost:3000/assessments/${id}`);
-        const data = await response.json();
-        this.selectedAssessment = data;
-      } catch (error) {
-        console.error("Error fetching assessment:", error);
-      }
-    },
-    openModal(id) {
-      this.fetchAssessmentById(id);
-      const modal = document.getElementById('hs-large-modal');
-      modal.classList.remove('hidden');
+    openModal(assessment) {
+      this.currentAssessment = assessment; // Define a avaliação selecionada
     },
     closeModal() {
-      const modal = document.getElementById('hs-large-modal');
-      modal.classList.add('hidden');
-    },
-    async deleteAssessment(id) {
-      try {
-        await axios.delete(`http://localhost:3000/assessments/${id}`);
-        this.fetchAssessments(); 
-      } catch (error) {
-        console.error('Erro ao deletar avaliação:', error);
-      }
+      this.currentAssessment = null; // Limpa os dados ao fechar o modal
     },
     goBack() {
       this.$router.push('/patientlist');
     },
-    AssessmentPage(id_patient) {
-      this.$router.push({ name: 'AssessmentPage', params: { id_patient } });
+    AssessmentPage(id) {
+      this.$router.push(`/AssessmentPage/${id}`);
     },
-    editUserData() {
-      this.patientToEdit = { ...this.user, user_id: this.user.id_user || this.patient.user_id };
-      this.showEditModal = true;
+    editpage() {
+      this.$router.push('/EditAssessment');
     },
-    async updatePatient() {
-      try {
-        if (!this.patientToEdit.user_id) {
-          throw new Error('ID do usuário não definido');
-        }
+    EditaData() {
 
-        await axios.put(`http://localhost:3000/users/${this.patientToEdit.user_id}`, this.patientToEdit);
-        this.fetchPatientData();
-        this.showEditModal = false;
-        this.showToastMessage('Dados atualizados com sucesso!', 'success');
-      } catch (error) {
-        console.error('Erro ao atualizar o paciente:', error);
-        this.showToastMessage('Erro ao atualizar os dados do paciente', 'error');
-      }
-    },
-    async generatePdf(patientId) {
-      try {
-        const response = await axios.get(`http://localhost:3000/assessments/patient/${patientId}/history`, {
-          responseType: 'blob',
-        });
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `Paciente_${patientId}_Historico.pdf`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link); // Remove o link após o download
-        window.URL.revokeObjectURL(url); // Libera o objeto URL
-      } catch (error) {
-        console.error('Erro ao gerar PDF:', error);
-      }
     },
     showToastMessage(message, type) {
       this.toastMessage = message;
@@ -482,11 +447,171 @@ export default {
         this.showToast = true;
       });
     },
-
+    openDeleteModal(assessment) {
+      this.assessmentToDelete = assessment;
+      this.showModal = true;
+    },
+    confirmDeleteAssessment() {
+      if (this.assessmentToDelete) {
+        this.deletedAssessments.push(this.assessmentToDelete.id_assessment);
+        this.showToastMessage('Avaliação excluída com sucesso', 'success');
+        this.cancelDelete();
+      }
+    },
+    cancelDelete() {
+      this.assessmentToDelete = null;
+      this.showModal = false;
+    }
+  },
+  computed: {
+    filteredAssessments() {
+      return this.assessments.filter(assessment => !this.deletedAssessments.includes(assessment.id_assessment));
+    }
   },
   mounted() {
-    this.fetchPatientData();
-    this.fetchAssessments();
+    // Dados fictícios para exibição
+    this.user = {
+      fullName: 'João da Silva',
+      cpf: '123.456.789-00',
+      dataNasc: '01/01/1980',
+      gender: 'Masculino',
+      phone: '(11) 98765-4321',
+      email: 'joao.silva@example.com',
+      street: 'Rua Exemplo',
+      number: '123',
+      complement: 'Apto 45',
+      district: 'Bairro Exemplo',
+      city: 'Cidade Exemplo',
+      state: 'Estado Exemplo',
+      cep: '12345-678',
+      userName: 'joaosilva'
+    };
+
+    this.patient = {
+      weigth_ini: 70,
+      height_ini: 1.75
+    };
+
+    // Dados fictícios para avaliações
+    this.assessments = [
+      {
+        id_assessment: 1,
+        assessmentDate: '2023-01-01',
+        weight: 70,
+        height: 175,
+        method: 'Método Exemplo',
+        circumference: {
+          neck: 40,
+          thorax: 100,
+          waist: 80,
+          abdomen: 85,
+          hip: 95,
+          leftArm: 30,
+          rightArm: 30,
+          leftForearm: 25,
+          rightForearm: 25,
+          leftGlutealThigh: 50,
+          rightGlutealThigh: 50,
+          leftLeg: 35,
+          rightLeg: 35,
+          leftWrist: 15,
+          rightWrist: 15
+        },
+        skinfold: {
+          triceps: 10,
+          abdominal: 20,
+          subscapular: 15,
+          suprailiac: 12,
+          thigh: 18
+        },
+        bmi: {
+          bmiValue: 22.9,
+          classification: 'Normal'
+        },
+        bodyComposition: {
+          body_density: 1.05,
+          body_fat_percentage: 15
+        }
+      },
+      {
+        id_assessment: 2,
+        assessmentDate: '2023-01-01',
+        weight: 70,
+        height: 175,
+        method: 'Método Exemplo',
+        circumference: {
+          neck: 40,
+          thorax: 100,
+          waist: 80,
+          abdomen: 85,
+          hip: 95,
+          leftArm: 30,
+          rightArm: 30,
+          leftForearm: 25,
+          rightForearm: 25,
+          leftGlutealThigh: 50,
+          rightGlutealThigh: 50,
+          leftLeg: 35,
+          rightLeg: 35,
+          leftWrist: 15,
+          rightWrist: 15
+        },
+        skinfold: {
+          triceps: 10,
+          abdominal: 20,
+          subscapular: 15,
+          suprailiac: 12,
+          thigh: 18
+        },
+        bmi: {
+          bmiValue: 22.9,
+          classification: 'Normal'
+        },
+        bodyComposition: {
+          body_density: 1.05,
+          body_fat_percentage: 15
+        }
+      },
+      {
+        id_assessment: 3,
+        assessmentDate: '2023-01-01',
+        weight: 70,
+        height: 175,
+        method: 'Método Exemplo',
+        circumference: {
+          neck: 40,
+          thorax: 100,
+          waist: 80,
+          abdomen: 85,
+          hip: 95,
+          leftArm: 30,
+          rightArm: 30,
+          leftForearm: 25,
+          rightForearm: 25,
+          leftGlutealThigh: 50,
+          rightGlutealThigh: 50,
+          leftLeg: 35,
+          rightLeg: 35,
+          leftWrist: 15,
+          rightWrist: 15
+        },
+        skinfold: {
+          triceps: 10,
+          abdominal: 20,
+          subscapular: 15,
+          suprailiac: 12,
+          thigh: 18
+        },
+        bmi: {
+          bmiValue: 22.9,
+          classification: 'Normal'
+        },
+        bodyComposition: {
+          body_density: 1.05,
+          body_fat_percentage: 15
+        }
+      }
+    ];
   },
 };
 </script>

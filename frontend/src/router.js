@@ -13,6 +13,7 @@ import PatientRegister from './templates/PatientRegister.vue';
 import PatientList from './templates/PatientList.vue';
 import ViewInformation from './templates/ViewInformation.vue';
 import ProfessionalRegister from './templates/ProfessionalRegister.vue';
+import EditAssessment from './templates/EditAssessment.vue';
 const routes = [
     {
         path: '/',
@@ -89,6 +90,11 @@ const routes = [
         component: ViewInformation,
         name: 'ViewInformation'
     },
+    {
+        path: '/EditAssessment/', 
+        component: EditAssessment,
+        name: 'EditAssessment'
+    }
 
 ];
 

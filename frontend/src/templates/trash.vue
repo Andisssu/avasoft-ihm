@@ -145,8 +145,7 @@ role="dialog" tabindex="-1" aria-labelledby="hs-scale-animation-modal-label">
         Cancelar
       </button>
       <button @click="updatePatient" type="submit"
-        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-white bg-blue-600 shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none focus:ring-offset-white dark:focus:ring-offset-neutral-800"
-        aria-label="Close" data-hs-overlay="#hs-scale-animation-modal">
+        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg text-white bg-blue-600 shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none focus:ring-offset-white dark:focus:ring-offset-neutral-800">
         Atualizar
       </button>
     </div>
