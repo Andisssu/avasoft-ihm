@@ -58,36 +58,47 @@
           <label for="street" class="mb-2 text-white">Rua</label>
           <input type="text" id="street" placeholder="Digite sua rua aqui..." v-model="street"
             class="w-full p-3 rounded focus:border-orange-500" />
+            <span v-if="errors.street" class="text-red-500 text-sm">{{ errors.street }}</span>
+
         </div>
 
         <div class="flex flex-col mx-4">
           <label for="number" class="mb-2 text-white">Número <span class="text-red-500">*</span></label>
           <input type="number" id="number" placeholder="Digite o número aqui..." v-model="number"
             class="w-full p-3 rounded focus:border-orange-500" />
+            <span v-if="errors.number" class="text-red-500 text-sm">{{ errors.number }}</span>
+
         </div>
 
         <div class="flex flex-col mx-4">
           <label for="complement" class="mb-2 text-white">Complemento</label>
           <input type="text" id="complement" placeholder="Digite o complemento aqui..." v-model="complement"
             class="w-full p-3 rounded focus:border-orange-500" />
+            
         </div>
 
         <div class="flex flex-col mx-4">
           <label for="district" class="mb-2 text-white">Bairro <span class="text-red-500">*</span></label>
           <input type="text" id="district" placeholder="Digite seu bairro aqui..." v-model="district"
             class="w-full p-3 rounded focus:border-orange-500" />
+            <span v-if="errors.district" class="text-red-500 text-sm">{{ errors.district }}</span>
+
         </div>
 
         <div class="flex flex-col mx-4">
           <label for="city" class="mb-2 text-white">Cidade <span class="text-red-500">*</span></label>
           <input type="text" id="city" placeholder="Digite sua cidade aqui..." v-model="city"
             class="w-full p-3 rounded focus:border-orange-500" />
+            <span v-if="errors.city" class="text-red-500 text-sm">{{ errors.city }}</span>
+
         </div>
 
         <div class="flex flex-col mx-4">
           <label for="state" class="mb-2 text-white">Estado <span class="text-red-500">*</span></label>
           <input type="text" id="state" placeholder="Digite seu estado aqui..." v-model="state"
             class="w-full p-3 rounded focus:border-orange-500" />
+            <span v-if="errors.state" class="text-red-500 text-sm">{{ errors.state }}</span>
+
         </div>
 
         <div class="flex flex-col mx-4">
@@ -98,7 +109,7 @@
         </div>
       </div>
 
-      <div class="flex justify-between my-6">
+      <div class="flex justify-center mt-6 gap-4">
         <button type="button" @click="goBack" class="bg-gray-500 text-white p-3 rounded">Voltar</button>
         <button type="submit" class="bg-orange-500 text-white p-3 rounded">Cadastrar</button>
       </div>
@@ -149,35 +160,46 @@ export default {
       return cep.length === 8 && !isNaN(cep);
     },
     handleRegister() {
-      this.errors = {}; // Limpa os erros
+  this.errors = {}; // Limpa os erros
 
-      // Validação dos campos
-      if (!this.fullName) this.errors.fullName = 'Nome completo é obrigatório.';
-      if (!this.cpf || !this.validateCPF(this.cpf)) this.errors.cpf = 'CPF inválido.';
-      if (!this.phone || !this.validatePhone(this.phone)) this.errors.phone = 'Telefone inválido.';
-      if (!this.email) this.errors.email = 'Email é obrigatório.';
-      if (!this.userName) this.errors.userName = 'Nome de usuário é obrigatório.';
-      if (!this.password) this.errors.password = 'Senha é obrigatória.';
-      if (this.password !== this.confirmPassword) this.errors.confirmPassword = 'As senhas não coincidem.';
-      if (!this.cep || !this.validateCEP(this.cep)) this.errors.cep = 'CEP inválido.';
+  // Validação dos campos
+  if (!this.fullName) this.errors.fullName = 'Nome completo é obrigatório.';
+  if (!this.cpf || !this.validateCPF(this.cpf)) this.errors.cpf = 'CPF inválido. Apenas números';
+  if (!this.phone || !this.validatePhone(this.phone)) this.errors.phone = 'Telefone inválido.';
+  if (!this.email) this.errors.email = 'Email é obrigatório.';
+  if (!this.userName) this.errors.userName = 'Nome de usuário é obrigatório.';
+  if (!this.password) this.errors.password = 'Senha é obrigatória.';
+  if (!this.city) this.errors.city = 'Cidade é obrigatória.';
+  if (!this.state) this.errors.state = 'Estado é obrigatório.';
+  if (!this.district) this.errors.district = 'Bairro é obrigatório.';
+  if (!this.number) this.errors.number = 'Número é obrigatória.';
+  if (!this.street) this.errors.street = 'Rua é obrigatória.';
+  if (this.password !== this.confirmPassword) this.errors.confirmPassword = 'As senhas não coincidem.';
+  if (!this.cep || !this.validateCEP(this.cep)) this.errors.cep = 'CEP inválido, digite apenas números.';
 
-      // Verifica se há erros
-      if (Object.keys(this.errors).length > 0) {
-        this.toastMessage = 'Por favor, corrija os erros no formulário.';
-        this.toastType = 'error';
-        this.showToast = true;
-        return;
-      }
+  // Verifica se há erros
+  if (Object.keys(this.errors).length > 0) {
+    this.toastMessage = 'Por favor, corrija os erros no formulário.';
+    this.toastType = 'error';
+    this.showToast = false; // Garante que o toast é fechado antes
+    this.$nextTick(() => {
+      this.showToast = true; // Exibe o toast novamente
+    });
+    return;
+  }
 
-      // Aqui você pode fazer a requisição para o backend
-      // Após o sucesso, exiba uma mensagem de sucesso
-      this.toastMessage = 'Profissional cadastrado com sucesso!';
-      this.toastType = 'success';
-      this.showToast = true;
+  // Após o sucesso, exiba uma mensagem de sucesso
+  this.toastMessage = 'Profissional cadastrado com sucesso!';
+  this.toastType = 'success';
+  this.showToast = false; // Garante que o toast é fechado antes
+  this.$nextTick(() => {
+    this.showToast = true; // Exibe o toast novamente
+  });
 
-      // Limpa os campos
-      this.clearFields();
-    },
+  // Limpa os campos
+  this.clearFields();
+},
+
     clearFields() {
       this.fullName = '';
       this.cpf = '';
