@@ -1,11 +1,10 @@
 <template>
-  <div>
     <button type="button"
             class="bg-green-500 text-white py-1 px-2 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent"
             @click="generatePdf">
       Gerar PDF
     </button>
-  </div>
+ 
 </template>
 
 <script>

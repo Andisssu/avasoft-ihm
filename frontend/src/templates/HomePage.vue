@@ -7,7 +7,7 @@
 
     <form class="form">
       <label for="search">
-        <input required="" autocomplete="off" placeholder="search your chats" id="search" type="text">
+        <input required="" autocomplete="off" placeholder="Busque por paciente ou avaliação" id="search" type="text">
         <div class="icon">
           <svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="swap-on">
