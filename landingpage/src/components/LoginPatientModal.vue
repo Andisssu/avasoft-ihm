@@ -15,15 +15,16 @@
           <label for="pass">Senha</label>
           <input type="password" id="pass" v-model="password" class="mt-2 mb-5 rounded border border-stone-700 p-2" placeholder="Digite sua senha aqui..." required>
         </div>
+
+        <p class="text-end text-sm">
+          <a href="#">Esqueceu a senha?</a>
+        </p>
+        <div class="flex justify-center mt-10">
+          <Button type="submit" class="bg-[#FF8139] px-12 py-3 text-white rounded-md hover:bg-[#FF5C00]">
+            Entrar
+          </Button>
+        </div>
       </form>
-      <p class="text-end text-sm">
-        <a href="#">Esqueceu a senha?</a>
-      </p>
-      <div class="flex justify-center mt-10">
-        <Button type="submit" class="bg-[#FF8139] px-12 py-3 text-white rounded-md hover:bg-[#FF5C00]">
-          Entrar
-        </Button>
-      </div>
     </div>
   </div>
 </template>
@@ -44,7 +45,11 @@ export default {
   data() {
     return {
       userName: '',
-      password: ''
+      password: '',
+      users: [
+        { userName: 'user1', password: 'password1' },
+        { userName: 'user2', password: 'password2' }
+      ]
     };
   },
   methods: {
@@ -52,9 +57,15 @@ export default {
       this.$emit('close');
     },
     handleLogin() {
-      if (this.userName && this.password) {
-        this.$router.push('/loginPatient');
+      const user = this.users.find(user => user.userName === this.userName && user.password === this.password);
+      if (user) {
+        // Simula o armazenamento do token e redirecionamento
+        localStorage.setItem('authToken', 'fake-token');
+        this.$router.push('/homePatient');
         this.close();
+      } else {
+        console.error('Erro ao fazer login: Usuário ou senha incorretos');
+        // Trate o erro, exiba uma mensagem de erro, etc.
       }
     }
   }

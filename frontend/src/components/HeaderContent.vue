@@ -130,6 +130,5 @@ header {
   left: 0;
   width: 100%;
   z-index: 50;
-  /* Certifique-se de que o z-index é alto o suficiente para ficar acima de outros elementos */
 }
 </style>
