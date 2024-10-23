@@ -34,15 +34,7 @@
         <p>Não tem uma conta? 
           <a class="text-orange-400 hover:underline"><router-link to="/ProfessionalRegister">Registre-se aqui!</router-link></a>
         </p>
-        <p class="pt-4">__________ OU __________</p>
 
-        <div id="micro-google" class="flex justify-around pt-4 space-x-4">
-          <GoogleLogin :callback="callback" prompt auto-login />
-          <a href="#" class="flex items-center justify-center space-x-2 bg-gray-700 rounded-md px-4 py-2">
-            <img src="../assets/img/microsoft.png" alt="Microsoft" class="w-6 h-auto" />
-            <span>Microsoft</span>
-          </a>
-        </div>
       </div>
     </form>
   </div>
@@ -53,8 +45,7 @@
 </template>
 
 <script>
-import { googleTokenLogin } from "vue3-google-login"
-import { decodeCredential } from "vue3-google-login";
+
 import ToastComponent from '../components/ToastNotification.vue';
 
 export default {
@@ -98,34 +89,27 @@ export default {
   },
 
   methods: {
-    callback(response) {
-      const userData = decodeCredential(response.credential)
-      console.log("Handle the userData", userData)
-    },
-    logingoogle() {
-      googleTokenLogin().then((response) => {
-        console.log("Handle the response", response)
-      })
-    },
-    handleLogin() {
-      const user = this.users.find(user => user.userName === this.userName && user.password === this.password);
-      if (user) {
-        this.showToastMessage('Login efetuado com sucesso!', 'success');
-        this.$router.push('/HomePage');
-      } else {
-        this.showToastMessage('Erro ao fazer login! Revise sua senha e nome de usuario', 'error');
-      }
-    },
-    showToastMessage(message, type) {
-      this.toastMessage = message;
-      this.toastType = type;
-      this.showToast = false;
-      this.$nextTick(() => {
-        this.showToast = true;
-      });
-    },
+  handleLogin() {
+    // Verifica se ambos os campos estão preenchidos
+    if (this.userName.trim() !== '' && this.password.trim() !== '') {
+      // Exibe mensagem de sucesso e redireciona para HomePage
+      this.showToastMessage('Login efetuado com sucesso!', 'success');
+      this.$router.push('/HomePage');
+    } else {
+      // Exibe mensagem de erro se os campos não estiverem preenchidos
+      this.showToastMessage('Por favor, preencha todos os campos!', 'error');
+    }
   },
-};
+  showToastMessage(message, type) {
+    this.toastMessage = message;
+    this.toastType = type;
+    this.showToast = false;
+    this.$nextTick(() => {
+      this.showToast = true;
+    });
+  },
+},
+}
 </script>
 
 <style scoped>
