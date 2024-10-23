@@ -197,7 +197,7 @@ export default {
 
       // Aqui você pode adicionar a lógica para enviar os dados para o backend
       // Após o sucesso, você pode mostrar uma mensagem de sucesso
-      this.showToastMessage('Paciente cadastrado com sucesso!, uma senha profissoria foi enviada para o e-mail', 'success');
+      this.showToastMessage('Paciente cadastrado com sucesso!, uma senha provisória foi enviada para o e-mail', 'success');
     },
     isValidCPF(cpf) {
       // Lógica para validar CPF
@@ -246,7 +246,7 @@ export default {
 
       setTimeout(() => {
         this.showToast = false;
-      }, 3000);
+      }, 7000);
     },
     goBack() {
       // Implemente a lógica para voltar à página anterior

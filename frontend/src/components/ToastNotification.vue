@@ -44,7 +44,7 @@ export default {
     };
   },
   mounted() {
-    setTimeout(this.closeToast, 5000); // Toast fecha após 5 segundos
+    setTimeout(this.closeToast, 10000); // Toast fecha após 5 segundos
   },
   computed: {
     toastClass() {
