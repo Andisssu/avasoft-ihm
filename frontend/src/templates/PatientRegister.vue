@@ -9,28 +9,30 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <!-- Nome completo -->
         <div class="flex flex-col mx-4">
-          <label for="fullName" class="mb-2 text-white">Nome completo</label>
+          <label for="fullName" class="mb-2 text-white">Nome completo <span class="text-red-500">*</span></label>
           <input type="text" id="fullName" placeholder="Digite seu nome completo aqui..." v-model="fullName"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- CPF -->
         <div class="flex flex-col mx-4">
-          <label for="cpf" class="mb-2 text-white">CPF</label>
+          <label for="cpf" class="mb-2 text-white">CPF <span class="text-red-500">*</span></label>
           <input type="text" id="cpf" placeholder="Digite seu CPF aqui..." v-model="cpf"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
+          <span v-if="cpfError" class="text-red-500 text-sm">{{ cpfError }}</span>
         </div>
 
         <!-- Data de Nascimento -->
         <div class="flex flex-col mx-4">
-          <label for="dataNasc" class="mb-2 text-white">Data de Nascimento</label>
-          <input type="date" id="dataNasc" v-model="dataNasc" class="w-full p-3 rounded focus:border-orange-500">
+          <label for="dataNasc" class="mb-2 text-white">Data de Nascimento <span class="text-red-500">*</span></label>
+          <input type="date" id="dataNasc" v-model="dataNasc" class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Gênero -->
         <div class="flex flex-col mx-4">
-          <label for="gender" class="mb-2 text-white">Gênero</label>
-          <select id="gender" v-model="gender" class="w-full p-3 rounded focus:border-orange-500">
+          <label for="gender" class="mb-2 text-white">Gênero <span class="text-red-500">*</span></label>
+          <select id="gender" v-model="gender" class="w-full p-3 rounded focus:border-orange-500" required>
+            <option value="" disabled selected>Selecione seu gênero</option>
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
             <option value="Outro">Outro</option>
@@ -39,37 +41,39 @@
 
         <!-- Telefone -->
         <div class="flex flex-col mx-4">
-          <label for="phone" class="mb-2 text-white">Telefone</label>
+          <label for="phone" class="mb-2 text-white">Telefone <span class="text-red-500">*</span></label>
           <input type="text" id="phone" placeholder="Digite seu telefone aqui..." v-model="phone"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
+          <span v-if="phoneError" class="text-red-500 text-sm">{{ phoneError }}</span>
         </div>
 
         <!-- Email -->
         <div class="flex flex-col mx-4">
-          <label for="email" class="mb-2 text-white">Email</label>
+          <label for="email" class="mb-2 text-white">Email <span class="text-red-500">*</span></label>
           <input type="email" id="email" placeholder="Digite seu email aqui..." v-model="email"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
+          <span v-if="emailError" class="text-red-500 text-sm">{{ emailError }}</span>
         </div>
 
         <!-- Nome de Usuário -->
         <div class="flex flex-col mx-4">
-          <label for="userName" class="mb-2 text-white">Nome de Usuário</label>
+          <label for="userName" class="mb-2 text-white">Nome de Usuário <span class="text-red-500">*</span></label>
           <input type="text" id="userName" placeholder="Digite seu nome de usuário aqui..." v-model="userName"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Rua -->
         <div class="flex flex-col mx-4">
-          <label for="street" class="mb-2 text-white">Rua</label>
+          <label for="street" class="mb-2 text-white">Rua <span class="text-red-500">*</span></label>
           <input type="text" id="street" placeholder="Digite sua rua aqui..." v-model="street"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Número -->
         <div class="flex flex-col mx-4">
-          <label for="number" class="mb-2 text-white">Número</label>
+          <label for="number" class="mb-2 text-white">Número <span class="text-red-500">*</span></label>
           <input type="number" id="number" placeholder="Digite o número aqui..." v-model="number"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Complemento -->
@@ -81,49 +85,50 @@
 
         <!-- Bairro -->
         <div class="flex flex-col mx-4">
-          <label for="district" class="mb-2 text-white">Bairro</label>
+          <label for="district" class="mb-2 text-white">Bairro <span class="text-red-500">*</span></label>
           <input type="text" id="district" placeholder="Digite seu bairro aqui..." v-model="district"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Cidade -->
         <div class="flex flex-col mx-4">
-          <label for="city" class="mb-2 text-white">Cidade</label>
+          <label for="city" class="mb-2 text-white">Cidade <span class="text-red-500">*</span></label>
           <input type="text" id="city" placeholder="Digite sua cidade aqui..." v-model="city"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Estado -->
         <div class="flex flex-col mx-4">
-          <label for="state" class="mb-2 text-white">Estado</label>
+          <label for="state" class="mb-2 text-white">Estado <span class="text-red-500">*</span></label>
           <input type="text" id="state" placeholder="Digite seu estado aqui..." v-model="state"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- CEP -->
         <div class="flex flex-col mx-4">
-          <label for="cep" class="mb-2 text-white">CEP</label>
+          <label for="cep" class="mb-2 text-white">CEP <span class="text-red-500">*</span></label>
           <input type="text" id="cep" placeholder="Digite seu CEP aqui..." v-model="cep"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
+          <span v-if="cepError" class="text-red-500 text-sm">{{ cepError }}</span>
         </div>
 
         <!-- Peso Inicial -->
         <div class="flex flex-col mx-4">
-          <label for="weigth_ini" class="mb-2 text-white">Peso Inicial</label>
-          <input type="number" id="weigth_ini" placeholder="Digite seu peso inicial aqui..." v-model="weigth_ini"
-            class="w-full p-3 rounded focus:border-orange-500">
+          <label for="weight_ini" class="mb-2 text-white">Peso Inicial <span class="text-red-500">*</span></label>
+          <input type="number" id="weight_ini" placeholder="Digite seu peso inicial aqui..." v-model="weight_ini"
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
 
         <!-- Altura Inicial -->
         <div class="flex flex-col mx-4">
-          <label for="height_ini" class="mb-2 text-white">Altura Inicial</label>
+          <label for="height_ini" class="mb-2 text-white">Altura Inicial <span class="text-red-500">*</span></label>
           <input type="number" id="height_ini" placeholder="Digite sua altura inicial aqui..." v-model="height_ini"
-            class="w-full p-3 rounded focus:border-orange-500">
+            class="w-full p-3 rounded focus:border-orange-500" required>
         </div>
       </div>
 
       <!-- Botões de envio e voltar -->
-      <div class="flex justify-between my-6">
+      <div class="flex justify-center mt-6 gap-4">
         <button type="button" @click="goBack" class="bg-gray-500 text-white p-3 rounded">Voltar</button>
         <button type="submit" class="bg-orange-500 text-white p-3 rounded">Cadastrar</button>
       </div>
@@ -154,102 +159,103 @@ export default {
       city: '',
       state: '',
       cep: '',
-      weigth_ini: '',
+      weight_ini: '',
       height_ini: '',
       showToast: false,
       toastMessage: '',
-      toastType: ''
+      toastType: '',
+      cpfError: '',
+      phoneError: '',
+      emailError: '',
+      cepError: ''
     };
   },
   methods: {
     handleRegister() {
-      try {
-        // Dados fictícios para validação
-        const validData = {
-          fullName: 'John Doe',
-          cpf: '123.456.789-00',
-          dataNasc: '1990-01-01',
-          gender: 'Masculino',
-          phone: '1234567890',
-          email: 'john.doe@example.com',
-          userName: 'johndoe',
-          street: 'Rua Exemplo',
-          number: '123',
-          complement: 'Apto 1',
-          district: 'Bairro Exemplo',
-          city: 'Cidade Exemplo',
-          state: 'Estado Exemplo',
-          cep: '12345-678',
-          weigth_ini: '70',
-          height_ini: '170'
-        };
+      this.cpfError = '';
+      this.phoneError = '';
+      this.emailError = '';
+      this.cepError = '';
 
-        // Verificação fictícia
-        if (
-          this.fullName === validData.fullName &&
-          this.cpf === validData.cpf &&
-          this.dataNasc === validData.dataNasc &&
-          this.gender === validData.gender &&
-          this.phone === validData.phone &&
-          this.email === validData.email &&
-          this.userName === validData.userName &&
-          this.street === validData.street &&
-          this.number === validData.number &&
-          this.complement === validData.complement &&
-          this.district === validData.district &&
-          this.city === validData.city &&
-          this.state === validData.state &&
-          this.cep === validData.cep &&
-          this.weigth_ini === validData.weigth_ini &&
-          this.height_ini === validData.height_ini
-        ) {
-          this.showToastMessage('Paciente cadastrado com sucesso!', 'success');
-        } else {
-          throw new Error('Dados inválidos');
-        }
-      } catch (error) {
-        console.error('Paciente cadastrado com sucesso!'); // gambiarra pra dar sucesso, linha correta -> console.error('Erro ao cadastrar paciente:', error);
-        this.showToastMessage(`Paciente cadastrado com sucesso!`, 'success'); //linha correta -> this.showToastMessage(`Erro ao cadastrar paciente: ${error.message}`, 'error');
+      // Validação dos campos
+      if (!this.isValidCPF(this.cpf)) {
+        this.cpfError = 'CPF inválido.';
+        return;
       }
+      if (!this.isValidPhone(this.phone)) {
+        this.phoneError = 'Telefone inválido.';
+        return;
+      }
+      if (!this.isValidEmail(this.email)) {
+        this.emailError = 'Email inválido.';
+        return;
+      }
+      if (!this.isValidCEP(this.cep)) {
+        this.cepError = 'CEP inválido.';
+        return;
+      }
+
+      // Aqui você pode adicionar a lógica para enviar os dados para o backend
+      // Após o sucesso, você pode mostrar uma mensagem de sucesso
+      this.showToastMessage('Paciente cadastrado com sucesso!, uma senha profissoria foi enviada para o e-mail', 'success');
+    },
+    isValidCPF(cpf) {
+      // Lógica para validar CPF
+      cpf = cpf.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+      if (cpf.length !== 11) return false;
+
+      let soma = 0;
+      let resto;
+
+      for (let i = 1; i <= 9; i++) {
+        soma += parseInt(cpf.charAt(i - 1)) * (11 - i);
+      }
+      resto = (soma * 10) % 11;
+
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.charAt(9))) return false;
+
+      soma = 0;
+      for (let i = 1; i <= 10; i++) {
+        soma += parseInt(cpf.charAt(i - 1)) * (12 - i);
+      }
+      resto = (soma * 10) % 11;
+
+      if (resto === 10 || resto === 11) resto = 0;
+      return resto === parseInt(cpf.charAt(10));
+    },
+    isValidPhone(phone) {
+      // Lógica para validar telefone (considerando apenas números)
+      phone = phone.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+      return phone.length >= 10 && phone.length <= 11; // Validar comprimento
+    },
+    isValidEmail(email) {
+      // Lógica para validar email
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    },
+    isValidCEP(cep) {
+      // Lógica para validar CEP (considerando apenas números)
+      cep = cep.replace(/[^\d]+/g, ''); // Remove caracteres não numéricos
+      return cep.length === 8; // Validar comprimento
     },
     showToastMessage(message, type) {
       this.toastMessage = message;
       this.toastType = type;
-      this.showToast = false;
-      this.$nextTick(() => {
-        this.showToast = true;
-      });
+      this.showToast = true;
+
+      setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
     },
     goBack() {
-      this.$router.go(-1);
+      // Implemente a lógica para voltar à página anterior
+      window.history.back();
     }
   }
 };
 </script>
 
 <style scoped>
-
-button {
-  width: 180px;
-  height: 50px;
-  border-radius: 4px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: box-shadow .15s, transform .15s;
-}
-
-button:focus {
-  box-shadow: #af6a0a 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-}
-
-button:hover {
-  box-shadow: rgba(255, 255, 255, 0.278) 0 4px 8px, rgba(45, 35, 66, 0.2) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-  transform: translateY(-2px);
-}
-
-button:active {
-  box-shadow: #ffa347 0 3px 7px inset;
-  transform: translateY(2px);
-}
+/* Estilos personalizados aqui */
 </style>
