@@ -21,12 +21,12 @@
         </div>
 
         <!-- Informação do usuário e botão Sair -->
-        <div class="hidden lg:flex sm:ml-6 space-x-8 items-center relative px-16">
+        <div class="hidden lg:flex sm:ml-6 space-x-8 items-center relative px-8">
           <div class="flex items-center gap-4">
             <!-- Informação do usuário -->
             <div class="font-medium text-white">
-              <div v-if="user" >{{ user.fullName }}</div>
-              <div v-if="user"  class="text-sm text-gray-400">{{ user.role }}</div>
+              <div v-if="user">{{ user.fullName }}</div>
+              <div v-if="user" class="text-sm text-gray-400">{{ user.role }}</div>
             </div>
 
             <!-- Imagem do usuário -->
@@ -37,7 +37,7 @@
 
           <!-- Dropdown -->
           <transition name="fade">
-            <div v-if="isDropdownOpen" class="absolute top-full mt-2 w-48 bg-[#131212] text-white divide-y divide-gray-100 rounded-lg shadow z-50 mr-32">
+            <div v-if="isDropdownOpen" class="absolute top-full mt-2 w-48 bg-[#131212] text-white divide-y divide-gray-100 rounded-lg shadow z-50 right-0">
               <div class="py-1">
                 <a @click="logout" class="flex items-center justify-end px-4 py-2 text-sm text-white hover:bg-gray-700 cursor-pointer">
                   <span class="mr-2">Sair</span>
@@ -77,10 +77,7 @@ export default {
     },
     logout() {
       this.$router.push('/');
-    }, 
-
-    
-
+    },
     async getUserInfo() {
       try {
         const id_user = this.$route.params.patient.id_user;
